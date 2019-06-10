@@ -6,14 +6,21 @@
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
-          </div>
+        </div>
   
 
       </div>
        <div id="sidebar" class="sidebar-full" :class="{ 'sidebar-closed': isActive }">
           
           <ul>
-            <li>Home</li>
+            <li>Home
+              <ul class="nested-nav">
+                <li>Sub Home</li>
+                <li>Sub Home</li>
+                <li>Sub Home</li>
+                <li>Sub Home</li>
+              </ul>
+            </li>
             <li>Home</li>
             <li>Home</li>
           </ul>
@@ -23,6 +30,7 @@
 
 <script>
 export default {
+  
   data(){
     return{
       isActive:false
@@ -58,6 +66,22 @@ export default {
   .sidebar-full{
     width: 200px;
     
+    
+  }
+  .nested-nav{
+    background-color: aqua;
+    position: fixed;
+    top: 100px;
+    left: 200px;
+    
+    bottom: 0;
+  }
+  ul.nested-nav li{
+    list-style: none;
+    display: none;
+  }
+  ul li:hover ul.nested-nav li{
+    display: block;
   }
   #topnav{
     float: right;
