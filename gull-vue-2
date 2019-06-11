@@ -1,0 +1,192 @@
+<template>
+    <div>
+      <div id="topnav">
+        {{isActive}}
+        <div class="toggle-btn" @click="isActive = !isActive">
+            <div class="nav-icon"></div>
+            <div class="nav-icon"></div>
+            <div class="nav-icon"></div>
+        </div>
+  
+         
+            <div id="sidebar" class="sidebar-full" :class="{ 'sidebar-closed': isActive }">
+          
+              <ul>
+                <li @mouseover="secondary"  data-item="home">Home</li>
+                <li @mouseover="secondary" data-item="contact">Contact</li>
+                <!-- <li @mouseover="isDisplay = !isDisplay ; isAbout = true ; isHome = true">contact</li> -->
+                <li  @mouseover="secondary" data-item="about">about us</li>
+              </ul>
+            </div>
+            <div class="sidebar-secondary">
+                <ul class="child-nav" data-parent="home" :class="{'sidebar-display':isDisplay}" >
+                    <li>Sub Home </li>
+                    <li>Sub Home</li>
+                    <li>Sub Home</li>
+                </ul>
+
+                <ul class="child-nav" data-parent="contact" :class="{'sidebar-display': isContact}">
+                  <li>Sub Contact</li>
+                  <li>Sub Contact</li>
+                  <li>Sub Contact</li>
+                  <li>Sub Contact</li>
+                </ul>
+                <ul class="child-nav" data-parent="about" :class="{'sidebar-display': isAbout}">
+                  <li>Sub About</li>
+                  <li>Sub About</li>
+                  <li>Sub About</li>
+                  <li>Sub About</li>
+                </ul>
+            </div>
+          
+      </div>
+       
+    </div>
+</template>
+
+<script>
+export default {
+  
+  data(){
+    return{
+      isActive:false,
+      isDisplay:true,
+      isContact:true,
+      isAbout:true,
+    }
+  },
+  methods:{
+    
+    secondary(ref){
+      let eventType = ref.target;
+      // console.log(eventType);
+      var data_item = eventType.getAttribute('data-item');
+      // console.log(data_item);
+
+      //  end::data-item-------------
+
+      var eventTwo = document.querySelectorAll('.sidebar-secondary ul');
+      // console.log(eventTwo);
+      for (const iterator of eventTwo) {
+       
+        let dataParent = iterator.dataset.parent;
+        if(dataParent == data_item){
+          console.log(dataParent,data_item);
+        }
+        else {
+          console.log(dataParent,data_item);
+        }
+      }
+      // var data_parent = eventTwo.getAttribute('data-parent');
+      // console.log(data_parent);
+      
+
+      // for(let i = 0 ; i < eventTwo.length ; i++)
+      // {
+      //   // console.log(eventTwo[i]);
+      //   var data_parent = eventTwo[i].getAttribute('data-parent');
+      //   // console.log(data_parent);
+      //   if(data_item === data_parent)
+      //   {
+      //     console.log(data_item,data_parent);
+      //     console.log('ok');
+          
+         
+      //   }else{
+      //     console.log(data_item,data_parent);
+      //     console.log('not-ok');
+      //   }
+        
+      // }
+      
+      
+      
+    },
+    isHide(){
+      
+      var sideFull = document.querySelector('.sidebar-full');
+      
+         
+      var sideBar = document.getElementById('sidebar');
+      // console.log(sideBar);
+      sideBar.classList.add('sidebar-closed');
+      
+    }
+  }
+}
+</script>
+
+<style scoped>
+  *{
+    margin: 0px;
+    padding:0px;
+  }
+  .sidebar-display {
+    display: none;
+  }
+  #sidebar{
+    top:100px;
+    position: fixed;
+    height: 100%;
+    background-color: tomato;
+    transition: all 0.5s ease-in;
+  }
+  .sidebar-secondary{
+    position: fixed;
+    top: 100px;
+    left:200px; 
+    height: 100%;
+    background-color: blueviolet;
+    
+  }
+  #sidebar ul li:hover .sidebar-secondary{
+    background-color: aqua;
+  }
+ 
+  .sidebar-secondary ul li{
+    list-style: none;
+    
+  }
+  .sidebar-full{
+    width: 200px;
+    
+    
+  }
+  .sidebar-full ul li{
+    cursor: pointer;
+    color: aliceblue;
+    padding-left: 50px;
+    margin: 20px 0;
+  }
+  .nested-nav{
+    background-color: aqua;
+    position: fixed;
+    top: 100px;
+    left: 200px;
+    
+    bottom: 0;
+  }
+  
+  
+  #topnav{
+    float: right;
+   
+    width: 100%;
+    height: 100px;
+    background-color: rgb(4, 146, 58);
+  }
+  #topnav .toggle-btn .nav-icon{
+    cursor: pointer;
+    width: 35px;
+  height: 5px;
+  background-color: black;
+  margin: 6px 0;
+  }
+  .sidebar-closed{
+    width:0px;
+    overflow: hidden;
+    
+    
+  }
+
+</style>
