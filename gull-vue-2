@@ -2,36 +2,36 @@
     <div>
       <div id="topnav">
         {{isActive}}
-        <div class="toggle-btn" @click="isActive = !isActive">
+         <!-- @click="isActive = !isActive" inside toggle-btn  -->
+        <div class="toggle-btn" @click="isToggle">
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
         </div>
   
-         
-            <div id="sidebar" class="sidebar-full" :class="{ 'sidebar-closed': isActive }">
+          <!-- :class="{ 'sidebar-closed': isActive }"  inside #sibar-div-->
+            <div id="sidebar" class="sidebar-full" >
           
               <ul>
                 <li @mouseover="secondary"  data-item="home">Home</li>
                 <li @mouseover="secondary" data-item="contact">Contact</li>
-                <!-- <li @mouseover="isDisplay = !isDisplay ; isAbout = true ; isHome = true">contact</li> -->
-                <li  @mouseover="secondary" data-item="about">about us</li>
+                <li @mouseover="secondary" data-item="about">about us</li>
               </ul>
             </div>
             <div class="sidebar-secondary">
-                <ul class="child-nav" data-parent="home" :class="{'sidebar-display':isDisplay}" >
+                <ul class="child-nav" data-parent="home" style="display:none" >
                     <li>Sub Home </li>
                     <li>Sub Home</li>
                     <li>Sub Home</li>
                 </ul>
 
-                <ul class="child-nav" data-parent="contact" :class="{'sidebar-display': isContact}">
+                <ul class="child-nav" data-parent="contact" style="display:none">
                   <li>Sub Contact</li>
                   <li>Sub Contact</li>
                   <li>Sub Contact</li>
                   <li>Sub Contact</li>
                 </ul>
-                <ul class="child-nav" data-parent="about" :class="{'sidebar-display': isAbout}">
+                <ul class="child-nav" data-parent="about" style="display:none">
                   <li>Sub About</li>
                   <li>Sub About</li>
                   <li>Sub About</li>
@@ -51,8 +51,7 @@ export default {
     return{
       isActive:false,
       isDisplay:true,
-      isContact:true,
-      isAbout:true,
+      
     }
   },
   methods:{
@@ -70,46 +69,68 @@ export default {
       for (const iterator of eventTwo) {
        
         let dataParent = iterator.dataset.parent;
-        if(dataParent == data_item){
-          console.log(dataParent,data_item);
+        if(dataParent === data_item){
+          // console.log(dataParent); 
+          iterator.style.display ="block";
+          let addSidebarSecondary = document.querySelector('.sidebar-secondary');
+            addSidebarSecondary.classList.add('open');
+           
+          // console.log(iterator);
+          
         }
         else {
-          console.log(dataParent,data_item);
+          iterator.style.display = "none";
+          
         }
       }
-      // var data_parent = eventTwo.getAttribute('data-parent');
-      // console.log(data_parent);
-      
-
-      // for(let i = 0 ; i < eventTwo.length ; i++)
-      // {
-      //   // console.log(eventTwo[i]);
-      //   var data_parent = eventTwo[i].getAttribute('data-parent');
-      //   // console.log(data_parent);
-      //   if(data_item === data_parent)
-      //   {
-      //     console.log(data_item,data_parent);
-      //     console.log('ok');
-          
-         
-      //   }else{
-      //     console.log(data_item,data_parent);
-      //     console.log('not-ok');
-      //   }
-        
-      // }
-      
+    
       
       
     },
-    isHide(){
-      
-      var sideFull = document.querySelector('.sidebar-full');
-      
+    isToggle(){
+        
+        let addSidebarOpen = document.querySelectorAll('.sidebar-secondary.open');
+        // sidebarOpen::start
+        for (const open of addSidebarOpen) {
+          // console.log(open,'second');
+          if(open){
+            open.classList.remove('open');
+            return;
+            
+          }else{
+            console.log('not working');
+          }
+        }
+        // sidebarOpen::end
+
+          // it turns full compact
+
+        let addSidebar = document.querySelector('.sidebar-secondary');
+        let m = document.querySelector('.sidebar-compact');
+        
+        if(addSidebar && !m)
+        {
+          let compact = document.querySelector(".sidebar-full");
+          compact.classList.add('sidebar-compact');
+          return;
+        }else{
+           let compact = document.querySelector(".sidebar-compact");
+          compact.classList.remove('sidebar-full');
+        } 
+        
+        
+        if(m)
+        {
+          m.classList.remove('sidebar-compact');
+          
+         console.log(m); 
          
-      var sideBar = document.getElementById('sidebar');
-      // console.log(sideBar);
-      sideBar.classList.add('sidebar-closed');
+        }else{
+          
+        } 
+        
+        
+        
       
     }
   }
@@ -131,13 +152,22 @@ export default {
     background-color: tomato;
     transition: all 0.5s ease-in;
   }
+  
+  .sidebar-secondary.open{
+    left: 200px;
+  }
+  .sidebar-compact{
+    left:-200px;
+    transition: all .24s ease-in-out;
+  }
   .sidebar-secondary{
+    z-index: -2;
     position: fixed;
     top: 100px;
-    left:200px; 
+    left:-100px; 
     height: 100%;
     background-color: blueviolet;
-    
+    transition: all .24s ease-in-out;
   }
   #sidebar ul li:hover .sidebar-secondary{
     background-color: aqua;
@@ -178,9 +208,9 @@ export default {
   #topnav .toggle-btn .nav-icon{
     cursor: pointer;
     width: 35px;
-  height: 5px;
-  background-color: black;
-  margin: 6px 0;
+    height: 5px;
+    background-color: black;
+    margin: 6px 0;
   }
   .sidebar-closed{
     width:0px;
