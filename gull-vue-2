@@ -3,14 +3,16 @@
       <div id="topnav">
         {{isActive}}
          <!-- @click="isActive = !isActive" inside toggle-btn  -->
-        <div class="toggle-btn" @click="isToggle">
+        <div class="toggle-btn" @click="myToggle" >
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
-        </div>
-  
-          <!-- :class="{ 'sidebar-closed': isActive }"  inside #sibar-div-->
-            <div id="sidebar" class="sidebar-full" >
+        </div>  
+        
+          <!-- :class="{ 'sidebar-closed': isActive }"  inside #sibar-div -->
+            <div id="sidebar" 
+            class="sidebar-full" 
+            :class="{'open' : isSideNavOpen,'sidebar-closed': isSideNavClose } ">
           
               <ul>
                 <li @mouseover="secondary"  data-item="home">Home</li>
@@ -18,14 +20,19 @@
                 <li @mouseover="secondary" data-item="about">about us</li>
               </ul>
             </div>
-            <div class="sidebar-secondary">
-                <ul class="child-nav" data-parent="home" style="display:none" >
+            <div class="sidebar-secondary" :class="{'open' : isSecondarysideNavOpen} ">
+                <ul class="child-nav" 
+                data-parent="home" 
+                
+                :style="{'display' :isStyleBlock}"
+                >
                     <li>Sub Home </li>
                     <li>Sub Home</li>
                     <li>Sub Home</li>
                 </ul>
 
-                <ul class="child-nav" data-parent="contact" style="display:none">
+                <ul class="child-nav" data-parent="contact" style="display:none"
+                >
                   <li>Sub Contact</li>
                   <li>Sub Contact</li>
                   <li>Sub Contact</li>
@@ -51,10 +58,75 @@ export default {
     return{
       isActive:false,
       isDisplay:true,
-      
+      isSideNavOpen:true,
+      isSecondarysideNavOpen:false,
+      isSideNavClose:false,
+      isStyleBlock:'block'
     }
   },
   methods:{
+    
+    myToggle(){
+        // if(this.isSideNavOpen){
+        //    this.isSideNavOpen = !this.isSideNavOpen
+          
+        // }else if(!this.isSideNavOpen && !this.isSecondarysideNavOpe){
+        //     this.isSideNavOpen = !this.isSideNavOpen
+        //     this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen  
+        // }else if(this.isSideNavOpen && !this.isSideNavOpen && this.isSecondarysideNavOpen)
+        // {
+        //   console.log('asdasd');
+        // }
+
+        if(this.isSideNavOpen && !this.isSideNavClose){
+
+          this.isSideNavClose = !this.isSideNavClose
+          this.isSideNavOpen = !this.isSideNavOpen
+
+        }else if(!this.isSideNavOpen && this.isSideNavClose){
+
+          this.isSideNavOpen = !this.isSideNavOpen
+          this.isSideNavClose = !this.isSideNavClose
+
+          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
+
+        }else if(this.isSideNavOpen && !this.isSideNavClose && !this.isSecondarysideNavOpen){
+          
+          console.log('print');
+
+        }
+        
+    },
+   
+    // toggle(){
+    //   if(this.isSideNavOpen && this.isSecondarysideNavOpen)
+    //   {
+    //   console.log('one');
+    //   // this.isSideNavOpen = !this.isSideNavOpen;
+    //   this.isSecondarysideNavOpen=!this.isSecondarysideNavOpen;
+    //   }
+    //   else if( this.isSecondarysideNavOpen){
+    //     this.isSecondarysideNavOpen=!this.isSecondarysideNavOpen;
+    //     console.log('two');
+    //   } 
+    //   else if(this.isSideNavOpen)
+    //   {
+    //     this.isSideNavOpen=!this.isSideNavOpen;
+    //     console.log('three');
+    //   }
+    //   else if(!this.isSideNavOpen && !this.isSecondarysideNavOpen){
+    //     this.isSideNavOpen=true;
+    //     this.isSecondarysideNavOpen=true;
+    //     console.log('four');
+
+    //   }else if (!this.isSideNavOpen){
+    //   this.isSideNavOpen=true;
+    //   console.log('five');
+    //   } else if(!this.isSecondarysideNavOpen){
+    //     this.isSecondarysideNavOpen=true;
+    //     console.log('six');
+    //   }
+    // },
     
     secondary(ref){
       let eventType = ref.target;
@@ -74,6 +146,8 @@ export default {
           iterator.style.display ="block";
           let addSidebarSecondary = document.querySelector('.sidebar-secondary');
             addSidebarSecondary.classList.add('open');
+
+        
            
           // console.log(iterator);
           
@@ -89,45 +163,60 @@ export default {
     },
     isToggle(){
         
-        let addSidebarOpen = document.querySelectorAll('.sidebar-secondary.open');
-        // sidebarOpen::start
-        for (const open of addSidebarOpen) {
-          // console.log(open,'second');
-          if(open){
-            open.classList.remove('open');
-            return;
+        // let addSidebarOpen = document.querySelectorAll('.sidebar-secondary.open');
+        // // sidebarOpen::start
+        // for (const open of addSidebarOpen) {
+        //   // console.log(open,'second');
+        //   if(open){
+        //     open.classList.remove('open');
+        //     return;
             
-          }else{
-            console.log('not working');
-          }
-        }
-        // sidebarOpen::end
+        //   }else{
+        //     console.log('not working');
+        //   }
+        // }
+        // // sidebarOpen::end
 
-          // it turns full compact
+        //   // it turns full compact
 
-        let addSidebar = document.querySelector('.sidebar-secondary');
-        let m = document.querySelector('.sidebar-compact');
-        
-        if(addSidebar && !m)
-        {
-          let compact = document.querySelector(".sidebar-full");
-          compact.classList.add('sidebar-compact');
-          return;
-        }else{
-           let compact = document.querySelector(".sidebar-compact");
-          compact.classList.remove('sidebar-full');
-        } 
-        
-        
-        if(m)
-        {
-          m.classList.remove('sidebar-compact');
+        // let addSidebar = document.querySelector('.sidebar-secondary');
+        // if(addSidebar){
+        //   let sidebarFull = document.querySelector('.sidebar-full');
+        //   sidebarFull.classList.add('sidebar-closed');
+        //   return;
+        // }else{
+        //   console.log('not working');
           
-         console.log(m); 
+        // }
+       
+
+        // let sidebarCompact = document.querySelectorAll('.sidebar-full.sidebar-closed');
+        // console.log('hello');
+        
+        
+        // let addSidebar = document.querySelector('.sidebar-secondary');
+        // let m = document.querySelector('.sidebar-compact');
+        
+        // if(addSidebar && !m)
+        // {
+        //   let compact = document.querySelector(".sidebar-full");
+        //   compact.classList.add('sidebar-compact');
+        //   return;
+        // }else{
+        //   let compact = document.querySelector(".sidebar-compact");
+        //   compact.classList.remove('sidebar-full');
+        // } 
+        
+        
+        // if(m)
+        // {
+        //   m.classList.remove('sidebar-compact');
+          
+        //  console.log(m); 
          
-        }else{
+        // }else{
           
-        } 
+        // } 
         
         
         
@@ -145,14 +234,19 @@ export default {
   .sidebar-display {
     display: none;
   }
+  .display{
+    display: block;
+  }
   #sidebar{
-    top:100px;
-    position: fixed;
+    
     height: 100%;
     background-color: tomato;
     transition: all 0.5s ease-in;
   }
-  
+  .open{
+    left: 0px;
+    transition: all 0.5s ease-in;
+  }
   .sidebar-secondary.open{
     left: 200px;
   }
@@ -179,7 +273,9 @@ export default {
   }
   .sidebar-full{
     width: 200px;
-    
+    transition: all .24s ease-in-out;
+    top:100px;
+    position: fixed;
     
   }
   .sidebar-full ul li{
@@ -213,10 +309,8 @@ export default {
     margin: 6px 0;
   }
   .sidebar-closed{
-    width:0px;
-    overflow: hidden;
-    
-    
+    left: -200px;
+    transition: all .24s ease-in-out;
   }
 
 </style>
