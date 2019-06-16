@@ -17,9 +17,9 @@
             >
             
               <ul>
-                <li @mouseover="primary"  data-item="home">Home</li>
-                <li @mouseover="primary"  data-item="contact">Contact</li>
-                <li @mouseover="primary" data-item="about">about us</li>
+                <li @mouseover="menuHover"  data-item="home">Home</li>
+                <li @mouseover="menuHover"  data-item="contact">Contact</li>
+                <li @mouseover="menuHover" data-item="about">about us</li>
               </ul>
             </div>
             <div 
@@ -30,6 +30,7 @@
                 <ul class="child-nav"
                 data-parent="home" 
                 style="display:none"
+                :style="{display:isDisplay}"
                 >
                     <li>Sub Home </li>
                     <li>Sub Home</li>
@@ -66,68 +67,38 @@ export default {
       isSecondarysideNavOpen:false,
       isSideNavClose:false,
       isStyle:true
+      
     }
   },
   methods:{
     
-    myToggle(){
+    myToggle(ref){
         
-
-        // if(this.isSideNavOpen && !this.isSideNavClose){
-
-        //   this.isSideNavClose = !this.isSideNavClose
-        //   this.isSideNavOpen = !this.isSideNavOpen
-
-        // }else if(!this.isSideNavOpen && this.isSideNavClose){
-
-        //   this.isSideNavOpen = !this.isSideNavOpen
-        //   this.isSideNavClose = !this.isSideNavClose
-
-        //   this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
-
-        // }else if(this.isSideNavOpen && !this.isSideNavClose && !this.isSecondarysideNavOpen){
-          
-        //   console.log('print');
-
-        // }
-        console.log(this.$refs);
-        
-    },
-   
-   
-    
-    secondary(ref){
-      let eventType = ref.target;
-      console.log(eventType);
-      var data_item = eventType.getAttribute('data-item');
-      // console.log(data_item);
-
-      //  end::data-item-------------
-
-      var eventTwo = document.querySelectorAll('.sidebar-secondary ul');
-      // console.log(eventTwo);
-      for (const iterator of eventTwo) {
-       
-        let dataParent = iterator.dataset.parent;
-        if(dataParent === data_item){
-          // console.log(dataParent); 
-          iterator.style.display ="block";
-          let addSidebarSecondary = document.querySelector('.sidebar-secondary');
-            addSidebarSecondary.classList.add('open');
- 
-          // console.log(iterator);
+        if(this.isSideNavOpen && this.isSecondarysideNavOpen){
+          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen;
           
         }
-        else {
-          iterator.style.display = "none";
-          
+        else if(!this.isSideNavOpen && this.isSideNavClose){
+
+          this.isSideNavOpen = !this.isSideNavOpen
+          this.isSideNavClose = !this.isSideNavClose
+
+          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
+
+        }else if(this.isSideNavOpen && !this.isSideNavClose){
+
+          this.isSideNavClose = !this.isSideNavClose
+          this.isSideNavOpen = !this.isSideNavOpen
+
         }
-      }
-    
-      
-      
+        
+        
     },
-    primary(el){
+    
+    
+    
+    
+    menuHover(el){
 
       let childrens = this.$refs.sidebarChild.children;
       let parent = el.target.dataset.item;
