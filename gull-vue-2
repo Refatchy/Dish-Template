@@ -30,7 +30,7 @@
                 <ul class="child-nav"
                 data-parent="home" 
                 style="display:none"
-                :style="{display:isDisplay}"
+                
                 >
                     <li>Sub Home </li>
                     <li>Sub Home</li>
@@ -73,23 +73,28 @@ export default {
   methods:{
     
     myToggle(ref){
+        // console.log(this.$refs.sidebarChild)
+        // let object = this.$refs.sidebarChild;
         
-        if(this.isSideNavOpen && this.isSecondarysideNavOpen){
+        
+        if(!this.isSideNavOpen && this.isSideNavClose){
+          
+          this.isSideNavOpen = !this.isSideNavOpen
+          this.isSideNavClose = !this.isSideNavClose
+          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
+          console.log('asd');
+          
+          
+        }else if(this.isSideNavOpen && this.isSecondarysideNavOpen){
           this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen;
           
+
         }
-        else if(!this.isSideNavOpen && this.isSideNavClose){
-
-          this.isSideNavOpen = !this.isSideNavOpen
-          this.isSideNavClose = !this.isSideNavClose
-
-          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
-
-        }else if(this.isSideNavOpen && !this.isSideNavClose){
+        else if(this.isSideNavOpen && !this.isSideNavClose){
 
           this.isSideNavClose = !this.isSideNavClose
           this.isSideNavOpen = !this.isSideNavOpen
-
+          
         }
         
         
