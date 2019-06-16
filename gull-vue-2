@@ -2,28 +2,33 @@
     <div>
       <div id="topnav">
         {{isActive}}
-         <!-- @click="isActive = !isActive" inside toggle-btn  -->
+        <!-- @click="isActive = !isActive" inside toggle-btn  -->
         <div class="toggle-btn" @click="myToggle" >
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
             <div class="nav-icon"></div>
         </div>  
-        
+        <input type="text"  ref="mario">
+        <input type="text"  ref="asd">
           <!-- :class="{ 'sidebar-closed': isActive }"  inside #sibar-div -->
             <div id="sidebar" 
             class="sidebar-full" 
-            :class="{'open' : isSideNavOpen,'sidebar-closed': isSideNavClose } ">
-          
+            :class="{'open' : isSideNavOpen,'sidebar-closed': isSideNavClose }"
+            >
+            
               <ul>
-                <li @mouseover="secondary"  data-item="home">Home</li>
-                <li @mouseover="secondary" data-item="contact">Contact</li>
-                <li @mouseover="secondary" data-item="about">about us</li>
+                <li @mouseover="primary"  data-boss="home">Home</li>
+                <li @mouseover="primary"  data-boss="contact">Contact</li>
+                <li @mouseover="primary" data-boss="about">about us</li>
               </ul>
             </div>
-            <div class="sidebar-secondary" :class="{'open' : isSecondarysideNavOpen} ">
-                <ul class="child-nav" 
+            <div 
+            class="sidebar-secondary" 
+            :class="{'open' : isSecondarysideNavOpen}"
+            ref="sidebarChild"
+            >
+                <ul class="child-nav"
                 data-parent="home" 
-                
                 :style="{'display' :isStyleBlock}"
                 >
                     <li>Sub Home </li>
@@ -47,7 +52,6 @@
             </div>
           
       </div>
-       
     </div>
 </template>
 
@@ -67,70 +71,34 @@ export default {
   methods:{
     
     myToggle(){
-        // if(this.isSideNavOpen){
-        //    this.isSideNavOpen = !this.isSideNavOpen
+        
+
+        // if(this.isSideNavOpen && !this.isSideNavClose){
+
+        //   this.isSideNavClose = !this.isSideNavClose
+        //   this.isSideNavOpen = !this.isSideNavOpen
+
+        // }else if(!this.isSideNavOpen && this.isSideNavClose){
+
+        //   this.isSideNavOpen = !this.isSideNavOpen
+        //   this.isSideNavClose = !this.isSideNavClose
+
+        //   this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
+
+        // }else if(this.isSideNavOpen && !this.isSideNavClose && !this.isSecondarysideNavOpen){
           
-        // }else if(!this.isSideNavOpen && !this.isSecondarysideNavOpe){
-        //     this.isSideNavOpen = !this.isSideNavOpen
-        //     this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen  
-        // }else if(this.isSideNavOpen && !this.isSideNavOpen && this.isSecondarysideNavOpen)
-        // {
-        //   console.log('asdasd');
+        //   console.log('print');
+
         // }
-
-        if(this.isSideNavOpen && !this.isSideNavClose){
-
-          this.isSideNavClose = !this.isSideNavClose
-          this.isSideNavOpen = !this.isSideNavOpen
-
-        }else if(!this.isSideNavOpen && this.isSideNavClose){
-
-          this.isSideNavOpen = !this.isSideNavOpen
-          this.isSideNavClose = !this.isSideNavClose
-
-          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen 
-
-        }else if(this.isSideNavOpen && !this.isSideNavClose && !this.isSecondarysideNavOpen){
-          
-          console.log('print');
-
-        }
+        console.log(this.$refs);
         
     },
    
-    // toggle(){
-    //   if(this.isSideNavOpen && this.isSecondarysideNavOpen)
-    //   {
-    //   console.log('one');
-    //   // this.isSideNavOpen = !this.isSideNavOpen;
-    //   this.isSecondarysideNavOpen=!this.isSecondarysideNavOpen;
-    //   }
-    //   else if( this.isSecondarysideNavOpen){
-    //     this.isSecondarysideNavOpen=!this.isSecondarysideNavOpen;
-    //     console.log('two');
-    //   } 
-    //   else if(this.isSideNavOpen)
-    //   {
-    //     this.isSideNavOpen=!this.isSideNavOpen;
-    //     console.log('three');
-    //   }
-    //   else if(!this.isSideNavOpen && !this.isSecondarysideNavOpen){
-    //     this.isSideNavOpen=true;
-    //     this.isSecondarysideNavOpen=true;
-    //     console.log('four');
-
-    //   }else if (!this.isSideNavOpen){
-    //   this.isSideNavOpen=true;
-    //   console.log('five');
-    //   } else if(!this.isSecondarysideNavOpen){
-    //     this.isSecondarysideNavOpen=true;
-    //     console.log('six');
-    //   }
-    // },
+   
     
     secondary(ref){
       let eventType = ref.target;
-      // console.log(eventType);
+      console.log(eventType);
       var data_item = eventType.getAttribute('data-item');
       // console.log(data_item);
 
@@ -146,9 +114,7 @@ export default {
           iterator.style.display ="block";
           let addSidebarSecondary = document.querySelector('.sidebar-secondary');
             addSidebarSecondary.classList.add('open');
-
-        
-           
+ 
           // console.log(iterator);
           
         }
@@ -161,67 +127,29 @@ export default {
       
       
     },
-    isToggle(){
-        
-        // let addSidebarOpen = document.querySelectorAll('.sidebar-secondary.open');
-        // // sidebarOpen::start
-        // for (const open of addSidebarOpen) {
-        //   // console.log(open,'second');
-        //   if(open){
-        //     open.classList.remove('open');
-        //     return;
+    primary(el){
+
+      let childrens = this.$refs.sidebarChild.children;
+      let parent = el.target.dataset.boss;
+      // console.log(parent);
+      // console.log(el);
+      for(const child of childrens){
+            let childList = child.dataset.parent;
+            // console.log(childList)
+            if(childList === parent)
+            {
+              console.log(parent);
+
+            }else
+            {
+              console.log('404 error');
+            }
             
-        //   }else{
-        //     console.log('not working');
-        //   }
-        // }
-        // // sidebarOpen::end
-
-        //   // it turns full compact
-
-        // let addSidebar = document.querySelector('.sidebar-secondary');
-        // if(addSidebar){
-        //   let sidebarFull = document.querySelector('.sidebar-full');
-        //   sidebarFull.classList.add('sidebar-closed');
-        //   return;
-        // }else{
-        //   console.log('not working');
-          
-        // }
-       
-
-        // let sidebarCompact = document.querySelectorAll('.sidebar-full.sidebar-closed');
-        // console.log('hello');
-        
-        
-        // let addSidebar = document.querySelector('.sidebar-secondary');
-        // let m = document.querySelector('.sidebar-compact');
-        
-        // if(addSidebar && !m)
-        // {
-        //   let compact = document.querySelector(".sidebar-full");
-        //   compact.classList.add('sidebar-compact');
-        //   return;
-        // }else{
-        //   let compact = document.querySelector(".sidebar-compact");
-        //   compact.classList.remove('sidebar-full');
-        // } 
-        
-        
-        // if(m)
-        // {
-        //   m.classList.remove('sidebar-compact');
-          
-        //  console.log(m); 
-         
-        // }else{
-          
-        // } 
-        
-        
-        
-      
+          }
+      console.log(this.$refs);
     }
+
+    
   }
 }
 </script>
@@ -296,7 +224,7 @@ export default {
   
   #topnav{
     float: right;
-   
+    
     width: 100%;
     height: 100px;
     background-color: rgb(4, 146, 58);
