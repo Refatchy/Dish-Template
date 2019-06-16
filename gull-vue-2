@@ -17,9 +17,9 @@
             >
             
               <ul>
-                <li @mouseover="primary"  data-boss="home">Home</li>
-                <li @mouseover="primary"  data-boss="contact">Contact</li>
-                <li @mouseover="primary" data-boss="about">about us</li>
+                <li @mouseover="primary"  data-item="home">Home</li>
+                <li @mouseover="primary"  data-item="contact">Contact</li>
+                <li @mouseover="primary" data-item="about">about us</li>
               </ul>
             </div>
             <div 
@@ -29,7 +29,7 @@
             >
                 <ul class="child-nav"
                 data-parent="home" 
-                :style="{'display' :isStyleBlock}"
+                style="display:none"
                 >
                     <li>Sub Home </li>
                     <li>Sub Home</li>
@@ -65,7 +65,7 @@ export default {
       isSideNavOpen:true,
       isSecondarysideNavOpen:false,
       isSideNavClose:false,
-      isStyleBlock:'block'
+      isStyle:true
     }
   },
   methods:{
@@ -130,7 +130,7 @@ export default {
     primary(el){
 
       let childrens = this.$refs.sidebarChild.children;
-      let parent = el.target.dataset.boss;
+      let parent = el.target.dataset.item;
       // console.log(parent);
       // console.log(el);
       for(const child of childrens){
@@ -138,11 +138,14 @@ export default {
             // console.log(childList)
             if(childList === parent)
             {
-              console.log(parent);
+              // console.log(childList ,parent);
+              let sideChild = this.$refs.sidebarChild;
+              sideChild.classList.add('open');
+              child.style.display = "block";
 
             }else
             {
-              console.log('404 error');
+              child.style.display = "none";
             }
             
           }
@@ -159,6 +162,7 @@ export default {
     margin: 0px;
     padding:0px;
   }
+  
   .sidebar-display {
     display: none;
   }
