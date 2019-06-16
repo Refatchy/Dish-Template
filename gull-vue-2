@@ -85,10 +85,6 @@ export default {
           console.log('asd');
           
           
-        }else if(this.isSideNavOpen && this.isSecondarysideNavOpen){
-          this.isSecondarysideNavOpen = !this.isSecondarysideNavOpen;
-          
-
         }
         else if(this.isSideNavOpen && !this.isSideNavClose){
 
